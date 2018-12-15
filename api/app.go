@@ -6,13 +6,17 @@ import (
 	"os"
 	"time"
 
+	firebase "firebase.google.com/go"
 	"github.com/codegangsta/negroni"
 	"github.com/fiscaluno/pandorabox"
 	"github.com/gorilla/context"
 	"github.com/gorilla/mux"
 	"github.com/loggibox/loggibox-api/api/handler"
 	"github.com/loggibox/loggibox-api/pkg/middleware"
+	"github.com/loggibox/loggibox-api/pkg/packet"
 	"github.com/loggibox/loggibox-api/pkg/user"
+	ctext "golang.org/x/net/context"
+	"google.golang.org/api/option"
 )
 
 // Start ...
@@ -26,8 +30,33 @@ func Start() {
 		negroni.NewLogger(),
 	)
 
-	// user
-	userRepo := user.NewInmemRepository()
+	dURL := pandorabox.GetOSEnvironment("FDATABASE_URL", "https://loggibox.firebaseio.com")
+	ctx := ctext.Background()
+	conf := &firebase.Config{
+		DatabaseURL: dURL,
+	}
+
+	// Fetch the service account key JSON file contents
+	opt := option.WithCredentialsFile("serviceAccountKey.json")
+	// Initialize the app with a service account, granting admin privileges
+	app, err := firebase.NewApp(ctx, conf, opt)
+	if err != nil {
+		log.Fatalln("Error initializing app:", err)
+	}
+
+	client, err := app.Database(ctx)
+	if err != nil {
+		log.Fatalln("Error initializing database client:", err)
+	}
+
+	// Packet
+	packetRepo := packet.NewFirebaseRepo(client)
+	packetService := packet.NewService(packetRepo)
+	handler.MakePacketHandlers(r, *n, packetService)
+
+	// User
+	// userRepo := user.NewInmemRepository()
+	userRepo := user.NewFirebaseRepo(client)
 	userService := user.NewService(userRepo)
 	handler.MakeUserHandlers(r, *n, userService)
 
@@ -45,7 +74,7 @@ func Start() {
 		ErrorLog:     logger,
 	}
 	logger.Println("Listen on port:" + port)
-	err := srv.ListenAndServe()
+	err = srv.ListenAndServe()
 	if err != nil {
 		log.Fatal(err.Error())
 	}

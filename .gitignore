@@ -10,3 +10,6 @@
 
 # Binary
 loggibox-api
+
+#firebase config
+loggibox-firebase.json

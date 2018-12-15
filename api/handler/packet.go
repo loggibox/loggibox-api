@@ -8,13 +8,13 @@ import (
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 	"github.com/loggibox/loggibox-api/pkg/entity"
-	"github.com/loggibox/loggibox-api/pkg/user"
+	"github.com/loggibox/loggibox-api/pkg/packet"
 )
 
-func userIndex(service user.UseCase) http.Handler {
+func packetIndex(service packet.UseCase) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error reading users"
-		var data []*entity.User
+		errorMessage := "Error reading packets"
+		var data []*entity.Packet
 		var err error
 		data, err = service.FindAll()
 
@@ -40,10 +40,10 @@ func userIndex(service user.UseCase) http.Handler {
 	})
 }
 
-func userAdd(service user.UseCase) http.Handler {
+func packetAdd(service packet.UseCase) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error adding user"
-		var b *entity.User
+		errorMessage := "Error adding packet"
+		var b *entity.Packet
 		err := json.NewDecoder(r.Body).Decode(&b)
 		if err != nil {
 			log.Println(err.Error())
@@ -74,9 +74,9 @@ func userAdd(service user.UseCase) http.Handler {
 	})
 }
 
-func userFind(service user.UseCase) http.Handler {
+func packetFind(service packet.UseCase) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error reading user"
+		errorMessage := "Error reading packet"
 		vars := mux.Vars(r)
 		id := vars["id"]
 		data, err := service.Find(entity.StringToID(id))
@@ -102,9 +102,9 @@ func userFind(service user.UseCase) http.Handler {
 	})
 }
 
-func userDelete(service user.UseCase) http.Handler {
+func packetDelete(service packet.UseCase) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		errorMessage := "Error removing user"
+		errorMessage := "Error removing packet"
 		vars := mux.Vars(r)
 		id := vars["id"]
 		err := service.Delete(entity.StringToID(id))
@@ -117,21 +117,21 @@ func userDelete(service user.UseCase) http.Handler {
 	})
 }
 
-// MakeUserHandlers make url handlers
-func MakeUserHandlers(r *mux.Router, n negroni.Negroni, service user.UseCase) {
-	r.Handle("/users", n.With(
-		negroni.Wrap(userIndex(service)),
-	)).Methods("GET", "OPTIONS").Name("userIndex")
+// MakePacketHandlers make url handlers
+func MakePacketHandlers(r *mux.Router, n negroni.Negroni, service packet.UseCase) {
+	r.Handle("/packets", n.With(
+		negroni.Wrap(packetIndex(service)),
+	)).Methods("GET", "OPTIONS").Name("packetIndex")
 
-	r.Handle("/users", n.With(
-		negroni.Wrap(userAdd(service)),
-	)).Methods("POST", "OPTIONS").Name("userAdd")
+	r.Handle("/packets", n.With(
+		negroni.Wrap(packetAdd(service)),
+	)).Methods("POST", "OPTIONS").Name("packetAdd")
 
-	r.Handle("/users/{id}", n.With(
-		negroni.Wrap(userFind(service)),
-	)).Methods("GET", "OPTIONS").Name("userFind")
+	r.Handle("/packets/{id}", n.With(
+		negroni.Wrap(packetFind(service)),
+	)).Methods("GET", "OPTIONS").Name("packetFind")
 
-	r.Handle("/users/{id}", n.With(
-		negroni.Wrap(userDelete(service)),
-	)).Methods("DELETE", "OPTIONS").Name("userDelete")
+	r.Handle("/packets/{id}", n.With(
+		negroni.Wrap(packetDelete(service)),
+	)).Methods("DELETE", "OPTIONS").Name("packetDelete")
 }

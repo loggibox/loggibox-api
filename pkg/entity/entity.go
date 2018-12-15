@@ -5,7 +5,7 @@ import (
 )
 
 //ID type
-type ID uint
+type ID string
 
 // HTTPResp ...
 type HTTPResp struct {
