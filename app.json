@@ -1,0 +1,11 @@
+{
+    "name": "Loggibox-api",
+    "description": "REST API para servir os Apps ",
+    "keywords": [
+        "loggi",
+        "Go",
+        "Golang"
+    ],
+    "website": "http://github.com/loggibox/loggibox-api",
+    "repository": "http://github.com/loggibox/loggibox-api"
+}

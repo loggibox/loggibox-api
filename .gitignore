@@ -1,12 +1,12 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+# Vendor Govendor format
+/vendor/*
+!/vendor/vendor.json
 
-# Test binary, build with `go test -c`
-*.test
+# EditorConfig
+.vscode/
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+# MacOS
+.DS_Store
+
+# Binary
+loggibox-api

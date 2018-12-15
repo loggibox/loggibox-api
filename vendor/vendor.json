@@ -1,0 +1,31 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "vEykhfQL3Yt8t1n4cxcUfQDOItw=",
+			"path": "github.com/codegangsta/negroni",
+			"revision": "7183f09c600e83777e78b44b39fcccab3b8c0dad",
+			"revisionTime": "2018-12-01T10:46:32Z"
+		},
+		{
+			"checksumSHA1": "7Noy2Ny1I1Xq7BfAdrcYm5eeT0s=",
+			"path": "github.com/fiscaluno/pandorabox",
+			"revision": "8e1bd20d540e6b12efab6e407c4ab37f16dda5c1",
+			"revisionTime": "2018-11-03T23:36:00Z"
+		},
+		{
+			"checksumSHA1": "oHwfghigjTz8Xs+ssxwdl/atb44=",
+			"path": "github.com/gorilla/context",
+			"revision": "51ce91d2eaddeca0ef29a71d766bb3634dadf729",
+			"revisionTime": "2018-10-12T15:35:48Z"
+		},
+		{
+			"checksumSHA1": "l1YNkb6/66PSOUhUDgzphOd7Z3Y=",
+			"path": "github.com/gorilla/mux",
+			"revision": "d2b5d13b9260193b5a5649e9f47fda645bd2bd1d",
+			"revisionTime": "2018-12-08T20:40:53Z"
+		}
+	],
+	"rootPath": "github.com/loggibox/loggibox-api"
+}
