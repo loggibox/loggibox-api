@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strconv"
+	"strings"
 
 	"firebase.google.com/go/db"
 	"github.com/loggibox/loggibox-api/pkg/entity"
@@ -46,23 +48,42 @@ func (r *FirebaseRepo) Store(a *entity.Packet) (string, error) {
 
 //Find a Packet
 func (r *FirebaseRepo) Find(id string) (*entity.Packet, error) {
-	// if r.m[id.String()] == nil {
-	// 	return nil, entity.ErrNotFound
-	// }
-	return nil, nil
+	var d *entity.Packet
+	ctx := context.Background()
+	ref := r.client.NewRef("/packets")
+	var packets map[string]entity.Packet
+	if err := ref.Get(ctx, &packets); err != nil {
+		log.Fatalln("Error reading from database:", err)
+		return nil, err
+	}
+
+	fmt.Println(packets)
+	return d, nil
 }
 
 //Search Packets
 func (r *FirebaseRepo) Search(query string) ([]*entity.Packet, error) {
 	var d []*entity.Packet
-	// for _, j := range r.m {
-	// 	if strings.Contains(strings.ToLower(j.Name), query) {
-	// 		d = append(d, j)
-	// 	}
-	// }
-	// if len(d) == 0 {
-	// 	return nil, entity.ErrNotFound
-	// }
+	ctx := context.Background()
+	ref := r.client.NewRef("/packets")
+
+	fmt.Println(query)
+	filter := strings.Split(query, "=")
+	fBool, err := strconv.ParseBool(filter[1])
+
+	results, err := ref.OrderByChild(filter[0]).EqualTo(fBool).GetOrdered(ctx)
+	if err != nil {
+		log.Fatalln("Error querying database:", err)
+		return nil, err
+	}
+	for _, r := range results {
+		var packet entity.Packet
+		if err := r.Unmarshal(&packet); err != nil {
+			log.Fatalln("Error unmarshaling result:", err)
+			continue
+		}
+		d = append(d, &packet)
+	}
 
 	return d, nil
 }

@@ -16,7 +16,13 @@ func packetIndex(service packet.UseCase) http.Handler {
 		errorMessage := "Error reading packets"
 		var data []*entity.Packet
 		var err error
-		data, err = service.FindAll()
+		query := r.URL.Query().Encode()
+		switch {
+		case query == "":
+			data, err = service.FindAll()
+		default:
+			data, err = service.Search(query)
+		}
 
 		w.Header().Set("Content-Type", "application/json")
 		if err != nil && err != entity.ErrNotFound {
@@ -26,6 +32,15 @@ func packetIndex(service packet.UseCase) http.Handler {
 		}
 
 		if data == nil {
+			resp := entity.HTTPResp{
+				Messages: []string{"Is empty"},
+				Result:   []string{},
+			}
+			if err := json.NewEncoder(w).Encode(resp); err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(errorMessage))
+				return
+			}
 			w.WriteHeader(http.StatusNotFound)
 			w.Write([]byte(errorMessage))
 			return
