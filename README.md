@@ -32,8 +32,3 @@ govendor sync
 go run app.go
 ```
 
-## Authors
-
-* **[Julio Cesar](https://julioc98.github.io)**
-
-See also the list of [contributors](https://github.com/julioc98/crudgo/contributors) who participated in this project.
