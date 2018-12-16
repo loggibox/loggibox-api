@@ -22,13 +22,13 @@ func NewFirebaseRepo(client *db.Client) *FirebaseRepo {
 }
 
 // Store a User
-func (r *FirebaseRepo) Store(a *entity.User) (entity.ID, error) {
+func (r *FirebaseRepo) Store(a *entity.User) (string, error) {
 	// r.m[a.ID.String()] = a
 	return a.ID, nil
 }
 
 //Find a User
-func (r *FirebaseRepo) Find(id entity.ID) (*entity.User, error) {
+func (r *FirebaseRepo) Find(id string) (*entity.User, error) {
 	// if r.m[id.String()] == nil {
 	// 	return nil, entity.ErrNotFound
 	// }
@@ -69,7 +69,7 @@ func (r *FirebaseRepo) FindAll() ([]*entity.User, error) {
 }
 
 //Delete a User
-func (r *FirebaseRepo) Delete(id entity.ID) error {
+func (r *FirebaseRepo) Delete(id string) error {
 	// if r.m[id.String()] == nil {
 	// 	return entity.ErrNotFound
 	// }

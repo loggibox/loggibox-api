@@ -79,7 +79,7 @@ func packetFind(service packet.UseCase) http.Handler {
 		errorMessage := "Error reading packet"
 		vars := mux.Vars(r)
 		id := vars["id"]
-		data, err := service.Find(entity.StringToID(id))
+		data, err := service.Find(id)
 		w.Header().Set("Content-Type", "application/json")
 		if err != nil && err != entity.ErrNotFound {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -107,7 +107,7 @@ func packetDelete(service packet.UseCase) http.Handler {
 		errorMessage := "Error removing packet"
 		vars := mux.Vars(r)
 		id := vars["id"]
-		err := service.Delete(entity.StringToID(id))
+		err := service.Delete(id)
 		w.Header().Set("Content-Type", "application/json")
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)

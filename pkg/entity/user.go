@@ -2,11 +2,11 @@ package entity
 
 //User data
 type User struct {
-	ID         ID     `json:"id,omitempty"`
-	Age        uint   `json:"age,omitempty"`
-	Name       string `json:"name,omitempty"`
-	Email      string `json:"email,omitempty"`
-	Address    string `json:"address,omitempty"`
-	RouteStart string `json:"route_start,omitempty"`
-	RouteEnd   string `json:"route_end,omitempty"`
+	ID         string `json:"id"`
+	Age        uint   `json:"age"`
+	Name       string `json:"name"`
+	Email      string `json:"email"`
+	Address    string `json:"address"`
+	RouteStart string `json:"route_start"`
+	RouteEnd   string `json:"route_end"`
 }

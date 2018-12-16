@@ -4,14 +4,15 @@ import "time"
 
 // Packet ...
 type Packet struct {
-	ID                 ID        `json:"id,omitempty"`
-	Weight             float64   `json:"weight,omitempty"`
-	Deadline           time.Time `json:"deadline,omitempty"`
-	DeliveryAddress    string    `json:"delivery_address,omitempty"`
-	IDUser             ID        `json:"id_user,omitempty"`
-	RouteStart         string    `json:"route_start,omitempty"`
-	RouteEnd           string    `json:"route_end,omitempty"`
-	Delivered          bool      `json:"delivered,omitempty"`
-	Delivering         bool      `json:"delivering,omitempty"`
-	DistributionCenter bool      `json:"distribution_center,omitempty"`
+	ID                 string    `json:"id"`
+	Weight             float64   `json:"weight"`
+	Deadline           time.Time `json:"deadline"`
+	DeadlineDays       int       `json:"deadline_days"`
+	DeliveryAddress    string    `json:"delivery_address"`
+	IDUser             string    `json:"id_user"`
+	RouteStart         string    `json:"route_start"`
+	RouteEnd           string    `json:"route_end"`
+	Delivered          bool      `json:"delivered"`
+	Delivering         bool      `json:"delivering"`
+	DistributionCenter bool      `json:"distribution_center"`
 }

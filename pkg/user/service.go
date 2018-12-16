@@ -19,17 +19,12 @@ func NewService(r Repository) *Service {
 }
 
 //Store an User
-func (s *Service) Store(b *entity.User) (entity.ID, error) {
-	all, err := s.repo.FindAll()
-	if err != nil {
-		return entity.NewID(), err
-	}
-	b.ID = entity.ID(len(all) + 1)
+func (s *Service) Store(b *entity.User) (string, error) {
 	return s.repo.Store(b)
 }
 
 //Find a User
-func (s *Service) Find(id entity.ID) (*entity.User, error) {
+func (s *Service) Find(id string) (*entity.User, error) {
 	return s.repo.Find(id)
 }
 
@@ -44,6 +39,6 @@ func (s *Service) FindAll() ([]*entity.User, error) {
 }
 
 //Delete a User
-func (s *Service) Delete(id entity.ID) error {
+func (s *Service) Delete(id string) error {
 	return s.repo.Delete(id)
 }
