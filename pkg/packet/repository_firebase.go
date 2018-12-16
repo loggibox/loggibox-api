@@ -38,6 +38,11 @@ func (r *FirebaseRepo) Store(a *entity.Packet) (string, error) {
 	packetsRef = ref.Child("/packets/" + packetID)
 	if err := packetsRef.Update(ctx, map[string]interface{}{
 		"id": packetID,
+		"user": entity.User{
+			ID:   "JC",
+			Name: "JC",
+			CPF:  "438.566.322.61",
+		},
 	}); err != nil {
 		log.Fatalln("Error updating child:", err)
 		return a.ID, err

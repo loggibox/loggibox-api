@@ -3,6 +3,7 @@ package entity
 //User data
 type User struct {
 	ID         string `json:"id"`
+	CPF        string `json:"cpf"`
 	Age        uint   `json:"age"`
 	Name       string `json:"name"`
 	Email      string `json:"email"`
