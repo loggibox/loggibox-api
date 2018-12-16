@@ -132,6 +132,50 @@ func packetDelete(service packet.UseCase) http.Handler {
 	})
 }
 
+func packetUpdate(service packet.UseCase) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		errorMessage := "Error adding packet"
+		vars := mux.Vars(r)
+		id := vars["id"]
+
+		var b *entity.Packet
+
+		err := json.NewDecoder(r.Body).Decode(&b)
+		if err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errorMessage))
+			return
+		}
+
+		b, err = service.Update(id, b)
+		if err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errorMessage))
+			return
+		}
+
+		w.WriteHeader(http.StatusCreated)
+		resp := entity.HTTPResp{
+			Code:   http.StatusCreated,
+			Result: b,
+		}
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			log.Println(err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errorMessage))
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(errorMessage))
+			return
+		}
+	})
+}
+
 // MakePacketHandlers make url handlers
 func MakePacketHandlers(r *mux.Router, n negroni.Negroni, service packet.UseCase) {
 	r.Handle("/packets", n.With(
@@ -149,4 +193,8 @@ func MakePacketHandlers(r *mux.Router, n negroni.Negroni, service packet.UseCase
 	r.Handle("/packets/{id}", n.With(
 		negroni.Wrap(packetDelete(service)),
 	)).Methods("DELETE", "OPTIONS").Name("packetDelete")
+
+	r.Handle("/packets/{id}", n.With(
+		negroni.Wrap(packetUpdate(service)),
+	)).Methods("PATCH", "OPTIONS").Name("packetUpdate")
 }

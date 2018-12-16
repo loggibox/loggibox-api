@@ -122,3 +122,20 @@ func (r *FirebaseRepo) Delete(id string) error {
 	// r.m[id.String()] = nil
 	return nil
 }
+
+//Update a Packet
+func (r *FirebaseRepo) Update(id string, p *entity.Packet) (*entity.Packet, error) {
+	ctx := context.Background()
+	ref := r.client.NewRef("/")
+
+	packetsRef := ref.Child("packets/" + id)
+	if err := packetsRef.Update(ctx, map[string]interface{}{
+		"delivered":           p.Delivered,
+		"delivering":          p.Delivering,
+		"distribution_center": p.DistributionCenter,
+	}); err != nil {
+		log.Fatalln("Error updating child:", err)
+		return p, err
+	}
+	return p, nil
+}

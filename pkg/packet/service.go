@@ -40,3 +40,8 @@ func (s *Service) FindAll() ([]entity.Packet, error) {
 func (s *Service) Delete(id string) error {
 	return s.repo.Delete(id)
 }
+
+//Update a Packet
+func (s *Service) Update(id string, b *entity.Packet) (*entity.Packet, error) {
+	return s.repo.Update(id, b)
+}

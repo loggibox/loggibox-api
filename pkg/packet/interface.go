@@ -12,6 +12,7 @@ type Reader interface {
 //Writer Packet writer
 type Writer interface {
 	Store(b *entity.Packet) (string, error)
+	Update(id string, b *entity.Packet) (*entity.Packet, error)
 	Delete(id string) error
 }
 
