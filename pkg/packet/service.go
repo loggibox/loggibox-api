@@ -1,8 +1,6 @@
 package packet
 
 import (
-	"strings"
-
 	"github.com/loggibox/loggibox-api/pkg/entity"
 )
 
@@ -29,12 +27,12 @@ func (s *Service) Find(id string) (*entity.Packet, error) {
 }
 
 //Search Packets
-func (s *Service) Search(query string) ([]*entity.Packet, error) {
-	return s.repo.Search(strings.ToLower(query))
+func (s *Service) Search(query string) ([]entity.Packet, error) {
+	return s.repo.Search(query)
 }
 
 //FindAll Packets
-func (s *Service) FindAll() ([]*entity.Packet, error) {
+func (s *Service) FindAll() ([]entity.Packet, error) {
 	return s.repo.FindAll()
 }
 

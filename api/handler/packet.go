@@ -14,7 +14,7 @@ import (
 func packetIndex(service packet.UseCase) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		errorMessage := "Error reading packets"
-		var data []*entity.Packet
+		var data []entity.Packet
 		var err error
 		query := r.URL.Query().Encode()
 		switch {
