@@ -29,12 +29,12 @@ func (s *Service) Find(id string) (*entity.User, error) {
 }
 
 //Search Users
-func (s *Service) Search(query string) ([]*entity.User, error) {
+func (s *Service) Search(query string) ([]entity.User, error) {
 	return s.repo.Search(strings.ToLower(query))
 }
 
 //FindAll Users
-func (s *Service) FindAll() ([]*entity.User, error) {
+func (s *Service) FindAll() ([]entity.User, error) {
 	return s.repo.FindAll()
 }
 

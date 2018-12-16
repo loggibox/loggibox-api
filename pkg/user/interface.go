@@ -5,8 +5,8 @@ import "github.com/loggibox/loggibox-api/pkg/entity"
 //Reader interface
 type Reader interface {
 	Find(id string) (*entity.User, error)
-	Search(query string) ([]*entity.User, error)
-	FindAll() ([]*entity.User, error)
+	Search(query string) ([]entity.User, error)
+	FindAll() ([]entity.User, error)
 }
 
 //Writer User writer

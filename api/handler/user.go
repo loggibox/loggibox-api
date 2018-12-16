@@ -14,7 +14,7 @@ import (
 func userIndex(service user.UseCase) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		errorMessage := "Error reading users"
-		var data []*entity.User
+		var data []entity.User
 		var err error
 		data, err = service.FindAll()
 

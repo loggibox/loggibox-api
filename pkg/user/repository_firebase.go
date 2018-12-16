@@ -36,8 +36,8 @@ func (r *FirebaseRepo) Find(id string) (*entity.User, error) {
 }
 
 //Search Users
-func (r *FirebaseRepo) Search(query string) ([]*entity.User, error) {
-	var d []*entity.User
+func (r *FirebaseRepo) Search(query string) ([]entity.User, error) {
+	var d []entity.User
 	// for _, j := range r.m {
 	// 	if strings.Contains(strings.ToLower(j.Name), query) {
 	// 		d = append(d, j)
@@ -51,8 +51,8 @@ func (r *FirebaseRepo) Search(query string) ([]*entity.User, error) {
 }
 
 //FindAll Users
-func (r *FirebaseRepo) FindAll() ([]*entity.User, error) {
-	var d []*entity.User
+func (r *FirebaseRepo) FindAll() ([]entity.User, error) {
+	var d []entity.User
 	ctx := context.Background()
 	ref := r.client.NewRef("/users")
 	var users map[string]entity.User
@@ -62,7 +62,7 @@ func (r *FirebaseRepo) FindAll() ([]*entity.User, error) {
 	}
 
 	for _, value := range users {
-		d = append(d, &value)
+		d = append(d, value)
 	}
 	fmt.Println(users)
 	return d, nil
